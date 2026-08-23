@@ -1,7 +1,8 @@
 import json
+import readline
+from utils.clear import cleart
 from speech.tts import main_tts
 from gpt import openai_response
-from utils.clear import cleart
 from tools.action import ComputerControl as cc
 
 

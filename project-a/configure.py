@@ -1,5 +1,6 @@
 #Configure User information and Operating System Platform
 import json
+import readline
 import platform
 import termcolor
 from textfx import typeeffect

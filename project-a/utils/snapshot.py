@@ -3,7 +3,7 @@ import pyautogui
 import subprocess
 
 
-def __screen_picture():
+def _screen_picture():
     """
     This function just Take an ScreenShot from the Screen
     """

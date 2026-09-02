@@ -4,7 +4,11 @@ from utils.clear import cleart
 from speech.tts import main_tts
 from gpt import openai_response
 from tools.action import ComputerControl as cc
+from amemory.shortmemory import ShortMem, GoalsMem
 
+
+sm = ShortMem()
+gm = GoalsMem()
 
 
 def run_agent():
@@ -12,8 +16,11 @@ def run_agent():
 
         user_input = input("You: ")
 
+        sm.store_messages(role="user", message=user_input)
+        for remind in sm.remind_messages():
+            print(remind)
         res = openai_response(
-            input=user_input
+            chat_input=remind
         )
 
         res
@@ -23,7 +30,9 @@ def run_agent():
             response_data = json.load(rr)
 
         final_response = f"{json.dumps(response_data["response"])}"
-        
+
+        sm.store_messages(role="assistant", message=final_response)
+        print(sm.remind_messages())
         print(f"Viora: {final_response}")
         main_tts(final_response)
 
@@ -71,7 +80,6 @@ def run_agent():
             action = False
 
 
-
 def main():
     try:
         run_agent()
@@ -84,14 +92,14 @@ if __name__ == "__main__":
         cleart()
 
         print("════════════════════════════════════════")
-        print("        |  Viora Alpha 0.1  |           ")
+        print("       |  Project-A Alpha 0.1  |        ")
         print("════════════════════════════════════════")
         print("        For Quit press Ctrl+C         \n")
 
         main()
     
     except KeyboardInterrupt:
-        print("\nQuiting Viora.")
+        print("\nQuiting Project-A.")
     
     except Exception as e:
         print("\nAn unexpected error occurred. Please try again. If the problem persists, please open issue issue on GitHub.")

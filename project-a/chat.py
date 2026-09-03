@@ -4,50 +4,59 @@ from utils.clear import cleart
 from speech.tts import main_tts
 from gpt import openai_response
 from tools.action import ComputerControl as cc
-from amemory.shortmemory import ShortMem, GoalsMem
+# from amemory.shortmemory import ShortMem, GoalsMem
 
 
-sm = ShortMem()
-gm = GoalsMem()
+# sm = ShortMem()
+# gm = GoalsMem()
 
 
 def run_agent():
     while True:
 
-        user_input = input("You: ")
+        user_input = str(input("You: "))
 
-        sm.store_messages(role="user", message=user_input)
-        for remind in sm.remind_messages():
-            print(remind)
+
+
+        # sm.store_messages(role="user", message=user_input)
+        # for remind in sm.remind_messages():
+        #     print(remind)
         res = openai_response(
-            chat_input=remind
+            chat_input=user_input,
+            stream=False
         )
 
         res
         
+
+
 
         with open("logs/response.json", "r") as rr:
             response_data = json.load(rr)
 
         final_response = f"{json.dumps(response_data["response"])}"
 
-        sm.store_messages(role="assistant", message=final_response)
-        print(sm.remind_messages())
+        # sm.store_messages(role="assistant", message=final_response)
+
+        # print(remind)
+        # print(type(remind))
         print(f"Viora: {final_response}")
         main_tts(final_response)
+
+
 
         action = False
         if response_data["control_action"] == "True":
             action = True
             while action:
 
-                action_response = openai_response()
-                
-                action_response
+                openai_response()
+
+
 
 
                 print(f"Viora: {final_response}")
-                main_tts(final_response)
+                # main_tts(final_response)
                 
                 key_word = response_data.get("key", "")
                 times_word = response_data.get("times", "")
@@ -63,7 +72,7 @@ def run_agent():
 
                 cc.keyboard_control(
                     key= key_word,
-                    key_settingstimes= times_word,
+                    key_times= times_word,
                     write= write_key,
                     firsthkey= firsthkey_word,
                     sechkey= sechkey_word,
@@ -80,11 +89,15 @@ def run_agent():
             action = False
 
 
+
+
 def main():
-    try:
-        run_agent()
-    except Exception as e:
-        print(e)
+    # try:
+    run_agent()
+    # except Exception as e:
+    #     print(e)
+
+
 
 
 if __name__ == "__main__":
@@ -100,7 +113,4 @@ if __name__ == "__main__":
     
     except KeyboardInterrupt:
         print("\nQuiting Project-A.")
-    
-    except Exception as e:
-        print("\nAn unexpected error occurred. Please try again. If the problem persists, please open issue issue on GitHub.")
-        print(e)
+

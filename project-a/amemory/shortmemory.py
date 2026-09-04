@@ -58,6 +58,7 @@ class GoalsMem():
 
         if al == True:
             return f"Active Goal: {self.active_goal}\nRecent Goal: {self.recent_goal}\nContaxt Goals: {self.context_goals}\nChat Facts: {self.chat_facts}"
+
         if resu!=None:
             return resu
 
@@ -80,20 +81,47 @@ class ShortMem():
     '''
 
     def __init__(self):
+        self.image = []
         self.messages = []
         self.message_number = 0
+        self.image_number = 0
+
     # Storing messages with 8 limit and forget first and old message after add new message
-    def store_messages(self, role:str | None, message:str | None) -> str:
+    def store_messages(self, role:str | None, message:str | None, image=None) -> str:
+
         # Add new messages
-        if self.message_number != 8:
+        if self.message_number != 10:
             self.messages.append({"role": role, "content": message})
             self.message_number+=1
-        # Remove old message after 8 message
+
+        # Remove old message after 9 message from 1 and not 0
         else:
-            self.messages.pop(0)
+            self.messages.pop(1)
             self.message_number = 0
             self.messages.append({"role": role, "content": message})
+            # self.messages
+
+    def add_image(self, image = ""):
+        if self.image_number != 1:
+            self.image.append({"role": "user", "content" : [{"type": "input_image", "image_url": image}]})
+            self.image_number+=1
+
+        else:
+            self.image.clear()
+            self.image_number = 0
+            self.image.append({"role": "user", "content" : [{"type": "input_image", "image_url": image}]})
+
     # Return all stored Messages
     def remind_messages(self):
-        return self.messages
 
+        return self.messages+self.image
+
+
+sm = ShortMem()
+
+sm.add_image("ihfefiehfie")
+# sm.add_image("niehfoehofwfonohw")
+sm.store_messages(role = "pihfiwhipheoefw",message="ojfwojfowhf")
+
+
+print(sm.remind_messages())

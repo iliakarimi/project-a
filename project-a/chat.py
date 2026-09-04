@@ -1,59 +1,64 @@
 import json
 import readline
 from utils.clear import cleart
-from speech.tts import main_tts
 from gpt import openai_response
+# from speech.tts import main_tts
+from utils.encode import encode_image
+from utils.snapshot import _screen_picture
 from tools.action import ComputerControl as cc
-# from amemory.shortmemory import ShortMem, GoalsMem
+from configs.model_sys_text import system_text
+from amemory.shortmemory import ShortMem, GoalsMem
 
 
-# sm = ShortMem()
-# gm = GoalsMem()
+sm = ShortMem()
+gm = GoalsMem()
 
 
 def run_agent():
+
+    sm.store_messages(role="developer", message=system_text)
+
     while True:
-
         user_input = str(input("You: "))
+        sm.store_messages(role="user", message=user_input)
+
+        _screen_picture()
+        image_f = "logs/snapshot.png"
+        base64_image = encode_image(image_f)
+        sm.add_image(image=f"data:image/jpeg;base64,{base64_image}")
 
 
-
-        # sm.store_messages(role="user", message=user_input)
-        # for remind in sm.remind_messages():
-        #     print(remind)
         res = openai_response(
-            chat_input=user_input,
+            chat_input=sm.remind_messages(),
             stream=False
         )
 
         res
         
 
-
-
         with open("logs/response.json", "r") as rr:
             response_data = json.load(rr)
 
         final_response = f"{json.dumps(response_data["response"])}"
 
-        # sm.store_messages(role="assistant", message=final_response)
+        sm.store_messages(role="assistant", message=final_response)
 
-        # print(remind)
-        # print(type(remind))
+        with open("logs/memorylog.json", "w") as f:
+            f.write(json.dumps(sm.remind_messages()))
+
+        print(sm.remind_messages())
+        print(len(sm.remind_messages()))
         print(f"Viora: {final_response}")
-        main_tts(final_response)
-
-
+        # main_tts(final_response)
 
         action = False
         if response_data["control_action"] == "True":
+
             action = True
+
             while action:
 
                 openai_response()
-
-
-
 
                 print(f"Viora: {final_response}")
                 # main_tts(final_response)
@@ -85,19 +90,17 @@ def run_agent():
                     click_times=click_times_mouse,
                     scroll=scroll_mouse
                 )
+
         else:
             action = False
-
-
 
 
 def main():
     # try:
     run_agent()
-    # except Exception as e:
-    #     print(e)
-
-
+    if Exception:
+        with open("logs/memorylog.json", "w") as f:
+            f.write(json.dumps(sm.remind_messages()))
 
 
 if __name__ == "__main__":
@@ -114,3 +117,6 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\nQuiting Project-A.")
 
+    # except Exception:
+    #     with open("logs/memorylog.json", "w") as f:
+    #         f.write(json.dumps(sm.remind_messages()))

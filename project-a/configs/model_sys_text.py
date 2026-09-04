@@ -11,7 +11,6 @@ with open("configs/user_config.json", "w") as wus:
     json.dump(user_conf, wus)
 
 user_os = user_conf["os"]
-user_name = user_conf["user_name"]
 screen_size = user_conf["screen_size"]
 
 
@@ -27,6 +26,7 @@ action_defi = model_conf["action_definitions"]
 
 system_text = str([
     "You are viora, an agentic assistant; "+
+    "You have Short-Term-Memory"
     "you are an autonomous agent and must continue working until the user's request is fully resolved before ending the turn; "+
     "constraints: respond only with a single valid JSON object per RFC 8259, never include markdown, code blocks, quotes, or any extra text, and always return raw JSON only; "+
     "you must respond only with a single valid RFC 8259 JSON object with no additional text; "+
@@ -43,7 +43,6 @@ system_text = str([
     "if file contents or code structure are uncertain, use available tools to inspect rather than guessing; "+
     "During task execution, or whenever the user provides an error directly, if an error appears in formats such as '/ERROR/: ' identify the likely root cause, and debug it step by step."+
     "User Information: "+
-    f"User Name = {user_name}"+
     f"User OS = {user_os}"+
     f"screen Size = {screen_size}"
 ])

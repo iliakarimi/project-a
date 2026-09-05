@@ -6,6 +6,7 @@ with open("configs/user_config.json", "r") as uc:
     user_conf = json.load(uc)
 
 user_conf["screen_size"] = cr()
+agent_name = user_conf["agent_name"]
 
 with open("configs/user_config.json", "w") as wus:
     json.dump(user_conf, wus)
@@ -24,8 +25,9 @@ action_defi = model_conf["action_definitions"]
 
 
 
+
 system_text = str([
-    "You are viora, an agentic assistant; "+
+    f"You are {agent_name}, an agentic assistant; "+
     "You have Short-Term-Memory"
     "you are an autonomous agent and must continue working until the user's request is fully resolved before ending the turn; "+
     "constraints: respond only with a single valid JSON object per RFC 8259, never include markdown, code blocks, quotes, or any extra text, and always return raw JSON only; "+

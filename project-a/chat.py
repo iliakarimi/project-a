@@ -27,14 +27,10 @@ def run_agent():
         base64_image = encode_image(image_f)
         sm.add_image(image=f"data:image/jpeg;base64,{base64_image}")
 
-
-        res = openai_response(
+        openai_response(
             chat_input=sm.remind_messages(),
             stream=False
         )
-
-        res
-        
 
         with open("logs/response.json", "r") as rr:
             response_data = json.load(rr)
@@ -42,9 +38,6 @@ def run_agent():
         final_response = f"{json.dumps(response_data["response"])}"
 
         sm.store_messages(role="assistant", message=final_response)
-
-        with open("logs/memorylog.json", "w") as f:
-            f.write(json.dumps(sm.remind_messages()))
 
         print(sm.remind_messages())
         print(len(sm.remind_messages()))
@@ -56,25 +49,36 @@ def run_agent():
 
             action = True
 
-            while action:
+            while True:
+                _screen_picture()
+                sm.add_image(image=f"data:image/jpeg;base64,{base64_image}")
+                openai_response(
+                    chat_input=sm.remind_messages(),
+                    stream=False
+                )
 
-                openai_response()
-
-                print(f"Viora: {final_response}")
-                # main_tts(final_response)
+                with open("logs/response.json", "r") as rr:
+                    aresponse_data = json.load(rr)
                 
-                key_word = response_data.get("key", "")
-                times_word = response_data.get("times", "")
-                write_key = response_data.get("write", "")
-                firsthkey_word = response_data.get("firsthkey", "")
-                sechkey_word = response_data.get("sechkey", "")
-                hotkey_word = response_data.get("hotkey", "")
-                movex_mouse = response_data.get("movex", "")
-                movey_mouse = response_data.get("movey", "")
-                click_button_mouse = response_data.get("click_button", "")
-                click_times_mouse = response_data.get("click_times", "")
-                scroll_mouse = response_data.get("scroll", "")
+                action_final_response = f"{json.dumps(aresponse_data["response"])}"
+                sm.store_messages(role="assistant", message=action_final_response)
+                print(sm.remind_messages())
+                print(len(sm.remind_messages()))
+                print(f"Viora: {action_final_response}")
+                # main_tts(final_response)
 
+                key_word = aresponse_data.get("key", "")
+                times_word = aresponse_data.get("times", "")
+                write_key = aresponse_data.get("write", "")
+                firsthkey_word = aresponse_data.get("firsthkey", "")
+                sechkey_word = aresponse_data.get("sechkey", "")
+                hotkey_word = aresponse_data.get("hotkey", "")
+                movex_mouse = aresponse_data.get("movex", "")
+                movey_mouse = aresponse_data.get("movey", "")
+                click_button_mouse = aresponse_data.get("click_button", "")
+                click_times_mouse = aresponse_data.get("click_times", "")
+                scroll_mouse = aresponse_data.get("scroll", "")
+                print([key_word, times_word, write_key, firsthkey_word, sechkey_word, hotkey_word, movex_mouse, movey_mouse, click_button_mouse, click_times_mouse, scroll_mouse])
                 cc.keyboard_control(
                     key= key_word,
                     key_times= times_word,
@@ -83,16 +87,19 @@ def run_agent():
                     sechkey= sechkey_word,
                     hotkey= hotkey_word
                 )
-                cc.mouse_control(
-                    movex=movex_mouse,
-                    movey=movey_mouse,
-                    click_button=click_button_mouse,
-                    click_times=click_times_mouse,
-                    scroll=scroll_mouse
-                )
 
-        else:
-            action = False
+                # cc.mouse_control(
+                #     movex=movex_mouse,
+                #     movey=movey_mouse,
+                #     click_button=click_button_mouse,
+                #     click_times=click_times_mouse,
+                #     scroll=scroll_mouse
+                # )
+                if aresponse_data["control_action"] == "False":
+                    break
+                else:
+                    continue
+
 
 
 def main():
@@ -117,6 +124,7 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\nQuiting Project-A.")
 
-    # except Exception:
+    # except Exception as e:
     #     with open("logs/memorylog.json", "w") as f:
     #         f.write(json.dumps(sm.remind_messages()))
+    #     print(e)

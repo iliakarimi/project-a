@@ -17,7 +17,6 @@ Sample_Rate = tts_configs["sample_rate"]
 encoding = tts_configs["encoding"]
 
 
-
 def ttsplayer(file_path):
     """ Play Audio file """
     try:

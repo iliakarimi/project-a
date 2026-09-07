@@ -1,6 +1,8 @@
 dotenv==0.9.9
+textfx==2.4.4
 pillow==12.2.0
 openai==2.32.0
+termcolor==3.3.0
 soundfile==0.14.0
 python-xlib==0.33
 pyautogui==0.9.54

@@ -3,7 +3,7 @@ import base64
 
 def encode_image(image_path):
     """""
-    Decode Image to utf-8
+    encode Image to utf-8
     """""
 
     with open(image_path, "rb") as image_file:

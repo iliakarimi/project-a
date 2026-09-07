@@ -2,7 +2,7 @@ import json
 import readline
 from utils.clear import cleart
 from gpt import openai_response
-# from speech.tts import main_tts
+from speech.tts import main_tts
 from utils.encode import encode_image
 from utils.snapshot import _screen_picture
 from tools.action import ComputerControl as cc
@@ -62,10 +62,9 @@ def run_agent():
                 
                 action_final_response = f"{json.dumps(aresponse_data["response"])}"
                 sm.store_messages(role="assistant", message=action_final_response)
-                print(sm.remind_messages())
-                print(len(sm.remind_messages()))
+
                 print(f"Viora: {action_final_response}")
-                # main_tts(final_response)
+                main_tts(final_response)
 
                 key_word = aresponse_data.get("key", "")
                 times_word = aresponse_data.get("times", "")
@@ -78,7 +77,7 @@ def run_agent():
                 click_button_mouse = aresponse_data.get("click_button", "")
                 click_times_mouse = aresponse_data.get("click_times", "")
                 scroll_mouse = aresponse_data.get("scroll", "")
-                print([key_word, times_word, write_key, firsthkey_word, sechkey_word, hotkey_word, movex_mouse, movey_mouse, click_button_mouse, click_times_mouse, scroll_mouse])
+
                 cc.keyboard_control(
                     key= key_word,
                     key_times= times_word,
@@ -88,26 +87,22 @@ def run_agent():
                     hotkey= hotkey_word
                 )
 
-                # cc.mouse_control(
-                #     movex=movex_mouse,
-                #     movey=movey_mouse,
-                #     click_button=click_button_mouse,
-                #     click_times=click_times_mouse,
-                #     scroll=scroll_mouse
-                # )
+                cc.mouse_control(
+                    movex=movex_mouse,
+                    movey=movey_mouse,
+                    click_button=click_button_mouse,
+                    click_times=click_times_mouse,
+                    scroll=scroll_mouse
+                )
                 if aresponse_data["control_action"] == "False":
                     break
                 else:
                     continue
 
 
-
 def main():
     # try:
     run_agent()
-    if Exception:
-        with open("logs/memorylog.json", "w") as f:
-            f.write(json.dumps(sm.remind_messages()))
 
 
 if __name__ == "__main__":
@@ -123,8 +118,3 @@ if __name__ == "__main__":
     
     except KeyboardInterrupt:
         print("\nQuiting Project-A.")
-
-    # except Exception as e:
-    #     with open("logs/memorylog.json", "w") as f:
-    #         f.write(json.dumps(sm.remind_messages()))
-    #     print(e)

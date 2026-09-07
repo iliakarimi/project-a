@@ -1,8 +1,6 @@
 import os
 import json
 import dotenv
-# from amemory.jobmap import JobMap
-# from amemory.shortmemory import ShortMem
 from configs.model_sys_text import system_text
 from openai import OpenAI, APIConnectionError, RateLimitError, APITimeoutError
 

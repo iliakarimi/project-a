@@ -2,7 +2,10 @@
 
 Project-A is a Research Project that I'm Trying to make a agent to do the tasks without any automation or Intervention.
 
-> **Note:** This project is currently under active development and is not finalized. You should expect bugs, unstable behavior, and breaking changes. Use with caution in any critical environments.
+
+> **Note-1:** This project temporary on pause develop --> [Check Out my X post about this](https://x.com/theiliakarimi/status/2096989396641722791?s=20).\
+
+> **Note-2:** This project is currently under active development and is not finalized. You should expect bugs, unstable behavior, and breaking changes. Use with caution in any critical environments.
 
 ---
 
@@ -15,10 +18,11 @@ Project-A is a Research Project that I'm Trying to make a agent to do the tasks 
 
 ---
 
-## Key Features in Project-A(Alpha 0.1)
+## Key Features in Project-A
 
 * **Full Autonomous Agent:** Trying to make Project-A do task it self without any automation,
 * **Compter Control:** The agent can Use use the compter-machine using keyboard and mouse by It self,
+* **Basic Short-Term-Memory**
 * **More automonous Features:** Future releases.
 
 ---

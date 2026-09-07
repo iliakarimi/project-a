@@ -1,8 +1,11 @@
 import pyautogui as pyagui
 
 
-def correct_resolution():
-    
+def _correct_resolution():
+    '''
+    This function get real resolution:\n
+    (x-1)(y-1)=CR
+    '''
     swidth = pyagui.resolution().width
     sheight = pyagui.resolution().height
 

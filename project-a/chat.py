@@ -13,11 +13,19 @@ from amemory.shortmemory import ShortMem, GoalsMem
 sm = ShortMem()
 gm = GoalsMem()
 
+<<<<<<< HEAD
 
 def run_agent():
 
     sm.store_messages(role="developer", message=system_text)
 
+=======
+
+def main():
+
+    sm.store_messages(role="developer", message=system_text)
+
+>>>>>>> main
     while True:
         user_input = str(input("You: "))
         sm.store_messages(role="user", message=user_input)
@@ -98,12 +106,15 @@ def run_agent():
                     break
                 else:
                     continue
+<<<<<<< HEAD
 
 
 def main():
     # try:
     run_agent()
 
+=======
+>>>>>>> main
 
 if __name__ == "__main__":
     try:

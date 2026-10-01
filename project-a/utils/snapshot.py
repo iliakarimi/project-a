@@ -1,9 +1,10 @@
 import Xlib
+from termcolor import colored
 import pyautogui
 import subprocess
 
 
-def __screen_picture():
+def _screen_picture():
     """
     This function just Take an ScreenShot from the Screen
     """
@@ -14,4 +15,4 @@ def __screen_picture():
         subprocess.call(["xhost", "+"])
         pyautogui.screenshot('logs/snapshot.png')
     except Exception as e:
-        raise RuntimeError(f"An Error Happend: {e}")
+        raise RuntimeError(f"An Error Happend: {e};\n {colored("------>", "red")} Change to {colored("X11", "blue")} Protocol.")

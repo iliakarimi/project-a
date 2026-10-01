@@ -14,7 +14,7 @@ sm = ShortMem()
 gm = GoalsMem()
 
 
-def run_agent():
+def main():
 
     sm.store_messages(role="developer", message=system_text)
 
@@ -98,12 +98,6 @@ def run_agent():
                     break
                 else:
                     continue
-
-
-def main():
-    # try:
-    run_agent()
-
 
 if __name__ == "__main__":
     try:
